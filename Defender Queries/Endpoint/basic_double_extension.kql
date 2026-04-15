@@ -1,0 +1,4 @@
+// high-confidence detection
+DeviceProcessEvents
+| where FileName matches regex @'\.[a-z]{3,4}\.exe$'
+| project Timestamp, DeviceName, FileName, ProcessCommandLine

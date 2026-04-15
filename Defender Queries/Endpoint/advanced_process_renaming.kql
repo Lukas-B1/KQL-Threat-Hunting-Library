@@ -1,0 +1,13 @@
+DeviceProcessEvents
+| where isnotempty(FileName) and isnotempty(ProcessVersionInfoOriginalFileName)
+// Create "Normalized" versions for the logic check
+| extend NormFileName = replace_regex(tolower(FileName), @'\.exe$', "")
+| extend NormOriginalName = replace_regex(tolower(ProcessVersionInfoOriginalFileName), @'\.exe$', "")
+// Logic check: Names don't match OR one has an extension while the other doesn't
+| where NormFileName != NormOriginalName
+// Still filter out the Zoom/Teams noise
+| where not(NormFileName in~ ("zoom", "teams", "skype"))
+| project Timestamp, DeviceName, 
+    ActualName = FileName, 
+    ExpectedName = ProcessVersionInfoOriginalFileName, 
+    ProcessCommandLine
