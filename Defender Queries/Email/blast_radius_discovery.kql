@@ -1,0 +1,3 @@
+EmailEvents 
+| where SenderMailFromAddress == "malicious@domain.com"
+| summarize count() by RecipientEmailAddress

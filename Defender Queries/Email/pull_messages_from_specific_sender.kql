@@ -1,0 +1,6 @@
+// Looks for email messages from a specific domain
+
+EmailUrlInfo
+| join EmailEvents on NetworkMessageId
+| where SenderFromDomain == "<domain>"
+| project timestamp, Url, SenderMailFromAddress, NetworkMessageId, Subject

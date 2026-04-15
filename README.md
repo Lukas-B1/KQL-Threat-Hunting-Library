@@ -9,4 +9,4 @@ KQL-Threat-Hunting-Library/
 - Endpoint/              <-- Defender for Endpoint (Processes, Files)
 - Email/                 <-- Defender for Office 365 (Phishing, Malicious Links)
 - Network/               <-- Firewall, DNS, Zscaler
-- CloudApps/              <-- Sharepoint, OneDrive, SaaS apps
+- CloudApps/             <-- Sharepoint, OneDrive, SaaS apps

@@ -1,0 +1,12 @@
+// Title: First Time Seen Sender
+// Description: Identifies emails from senders who have not been seen in the environment in the last 30 days.
+// MITRE Mapping: Phishing (T1566)
+// Data Source: EmailEvents
+// -------------------------------------------------------------------------
+let HistoricalSenders = EmailEvents
+| where Timestamp > ago(30d) and Timestamp < ago(1d)
+| summarize by SenderMailFromAddress;
+EmailEvents
+| where Timestamp > ago(1d)
+| where SenderMailFromAddress !in (HistoricalSenders)
+| project Timestamp, Subject, SenderMailFromAddress, RecipientEmailAddress
