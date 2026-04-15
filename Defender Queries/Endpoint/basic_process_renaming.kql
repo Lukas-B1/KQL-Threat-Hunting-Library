@@ -1,0 +1,12 @@
+// Title: Process Masquerading via Rename
+// Description: Detects processes where the filename on disk does not match the original filename in the metadata.
+// MITRE Mapping: Masquerading: Rename System Utilities (T1036.003)
+// Data Source: DeviceProcessEvents (Defender for Endpoint)
+// -------------------------------------------------------------------------
+DeviceProcessEvents
+| where isnotempty(FileName) and isnotempty(ProcessVersionInfoOriginalFileName)
+// force to lower case to ignore case sensitive mismatches
+| where tolower(FileName) != tolower(ProcessVersionInfoOriginalFileName)
+// Filter out common "noisy" updates or installers
+| where FileName !in~ ("setup.exe", "install.exe", "update.exe")
+| project Timestamp, DeviceName, FileName, ProcessVersionInfoOriginalFileName, ProcessCommandLine, InitiatingProcessAccountName

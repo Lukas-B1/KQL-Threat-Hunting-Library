@@ -1,0 +1,1 @@
+For Endpoint threat hunting, the most important table is the "DeviceProcessEvents" table. This table stores the commands run on all machines.
