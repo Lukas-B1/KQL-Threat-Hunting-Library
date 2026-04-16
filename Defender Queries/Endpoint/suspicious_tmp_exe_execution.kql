@@ -1,0 +1,12 @@
+// Title: Suspicious .tmp.exe Execution
+// Description: Detects execution of files with a .tmp.exe extension, filtering out known-good signed installers.
+// MITRE Mapping: Masquerading (T1036.003)
+// Data Source: DeviceProcessEvents
+// -------------------------------------------------------------------------
+DeviceProcessEvents
+| where FileName endswith ".tmp.exe"
+// 1. Filter out common paths for updates (generates noise)
+| where not(FolderPath has_any ("\\Windows\\SoftwareDistribution\\", "\\Program Files\\"))
+// Look for files that are NOT signed by a trusted company
+| where isempty(ProcessVersionInfoCompanyName) or ProcessVersionInfoCompanyName !has_any ("Microsoft", "Google", "Apple", "Adobe")
+| project Timestamp, DeviceName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName

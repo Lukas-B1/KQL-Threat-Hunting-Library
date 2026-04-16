@@ -1,0 +1,10 @@
+// Title: Normalize VERP Sender Addresses
+// Description: Cleans up "bounces+..." addresses to allow for accurate aggregation of automated senders.
+// -------------------------------------------------------------------------
+EmailEvents
+| extend CleanSender = iif(SenderMailFromAddress contains "+", 
+    strcat(split(SenderMailFromAddress, "+")[0], "@", split(SenderMailFromAddress, "@")[1]), 
+    SenderMailFromAddress)
+| summarize MessageCount = count() by CleanSender
+| sort by MessageCount desc
+// can also use SenderMailFromDomain in the queries to avoid this headache

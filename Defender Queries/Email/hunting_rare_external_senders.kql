@@ -5,8 +5,8 @@
 // -------------------------------------------------------------------------
 let HistoricalSenders = EmailEvents
 | where Timestamp > ago(30d) and Timestamp < ago(1d)
-| summarize by SenderMailFromAddress;
+| summarize by SenderMailFromDomain;
 EmailEvents
 | where Timestamp > ago(1d)
-| where SenderMailFromAddress !in (HistoricalSenders)
-| project Timestamp, Subject, SenderMailFromAddress, RecipientEmailAddress
+| where SenderMailFromDomain !in (HistoricalSenders)
+| project Timestamp, Subject, SenderMailFromDomain, RecipientEmailAddress

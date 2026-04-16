@@ -1,4 +1,5 @@
 // high-confidence detection
+// MITRE ATT&CK mapping: T1036.007 Double Extension
 DeviceProcessEvents
 | where FileName matches regex @'\.[a-z]{3,4}\.exe$'
 | project Timestamp, DeviceName, FileName, ProcessCommandLine
